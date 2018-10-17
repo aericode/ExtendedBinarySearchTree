@@ -18,4 +18,16 @@ public class Node
 	public boolean isRightNull(){
 		return right.equals(null);
 	}
+
+	public void setLeft(Node addMe){
+		left  = addMe;
+	}
+
+	public void setRight(Node addMe){
+		right = addMe;
+	}
+
+	public int getKey(){
+		return key;
+	}
 }
