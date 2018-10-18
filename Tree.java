@@ -38,6 +38,26 @@ public class Tree
 		return current;
 	}
 
+	public Node searchCall(int key){
+		return search(root, key);
+	}	
+
+	private Node search(Node current, int key){
+		if (current.key == key){
+		    return current;
+		}else if(current == null){
+			return null;
+		}
+
+		if (key < current.key){
+		   return search(current.left, key);
+		} else if (key > current.key){
+		   return search(current.right, key);
+		}
+
+		return current;
+	}
+
 
 
 }
