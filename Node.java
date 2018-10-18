@@ -7,9 +7,15 @@ public class Node
 
 	public Node(int key){
 		this.key = key;
-		left = null;
-		right = null;
+		left     = null;
+		right    = null;
 	}
+
+	public Node(Node node) { 
+		key   = node.key;
+        left  = node.left;
+        right = node.right;
+    } 
 
 	public boolean isLeftNull(){
 		return left.equals(null);
