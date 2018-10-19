@@ -6,10 +6,10 @@ public class Main{
 		tree.insertCall(3);
 		tree.insertCall(1);
 
-		if(tree.searchCall(5) == null){
-			System.out.println("não achei nada");
-		}else{
+		if(tree.searchCall(5)){
 			System.out.println("achei");
+		}else{
+			System.out.println("não achei");
 		}
 	}
 }

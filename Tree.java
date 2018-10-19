@@ -12,13 +12,13 @@ public class Tree
 
 	//Insertion call
 	//Baseado em https://www.baeldung.com/java-binary-tree
-	public void insertCall(int key){
+	public boolean insertCall(int key){
 		int auxCount = elementCount;
     	root = insert(root, key);
     	if(auxCount!=elementCount){
-    		System.out.println("Elemento inserido com sucesso");
+    		return true;
     	}else{
-    		System.out.println("Elemento já presente na árvore");
+    		return false;
     	}
 	}
 
@@ -38,15 +38,15 @@ public class Tree
 		return current;
 	}
 
-	public Node searchCall(int key){
+	public boolean searchCall(int key){
 		return search(root, key);
 	}	
 
-	private Node search(Node current, int key){
-		if (current.key == key){
-		    return current;
-		}else if(current == null){
-			return null;
+	private boolean search(Node current, int key){
+		if(current == null){
+			return false;
+		}else if (current.key == key){
+		    return true;
 		}
 
 		if (key < current.key){
@@ -55,7 +55,7 @@ public class Tree
 		   return search(current.right, key);
 		}
 
-		return current;
+		return false;
 	}
 
 
