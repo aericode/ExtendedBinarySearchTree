@@ -18,7 +18,7 @@ public class Main {
 		}
 		 */
 		try {
-			FileReader file = new FileReader("ArquivodeComandos.");
+			FileReader file = new FileReader("ArquivodeComandos. 	");
 			BufferedReader readFile = new BufferedReader(file);
 			
 			String line = readFile.readLine();
