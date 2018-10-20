@@ -58,23 +58,16 @@ public class Tree
 		return false;
 	}
 
-	/*
-	private boolean removal(Node current, int key){
-		if(current == null){
-			return false;
-		}else if (current.key == key){
-		    
-		}
-
-		if (key < current.key){
-		   return search(current.left, key);
-		} else if (key > current.key){
-		   return search(current.right, key);
-		}
-
-		return false;
+	public boolean remove(int key){
+		int auxCount = elementCount;
+    	root = nodeReplacement(root, key);
+    	if(auxCount!=elementCount){
+    		return true;
+    	}else{
+    		return false;
+    	}
 	}
-	*/
+
 
 	//deleta recursivamente
 	private Node nodeReplacement(Node current, int value){
@@ -92,13 +85,11 @@ public class Tree
 			return current.left;
 		}
 
-		//dois valores, escolhe o menor depois de achar
-		//depois que acha substitui prograssivamente para preservar a estrutura
+		
 		//troca pelo sucessor
-		current.key = smallestValue(current.right){
+		current.key = smallestValue(current.right);
 
 		current.right = nodeReplacement(current.right, current.key);
-		}
 
 		return current;
 	}

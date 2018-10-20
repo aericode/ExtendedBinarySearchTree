@@ -1,15 +1,26 @@
 public class Main{
 	public static void main(String[] args){
 		Tree tree = new Tree();
-		tree.insertCall(4);
-		tree.insertCall(3);
-		tree.insertCall(3);
-		tree.insertCall(1);
+		tree.insert(4);
+		tree.insert(3);
+		tree.insert(3);
+		tree.insert(1);
 
-		if(tree.searchCall(5)){
+
+		if(tree.search(4)){
 			System.out.println("achei");
 		}else{
 			System.out.println("não achei");
 		}
+
+		tree.remove(4);
+
+
+		if(tree.search(4)){
+			System.out.println("achei");
+		}else{
+			System.out.println("não achei");
+		}
+
 	}
 }
