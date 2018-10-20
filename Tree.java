@@ -12,9 +12,9 @@ public class Tree
 
 	//Insertion call
 	//Baseado em https://www.baeldung.com/java-binary-tree
-	public boolean insertCall(int key){
+	public boolean insert(int key){
 		int auxCount = elementCount;
-    	root = insert(root, key);
+    	root = insertCall(root, key);
     	if(auxCount!=elementCount){
     		return true;
     	}else{
@@ -22,31 +22,48 @@ public class Tree
     	}
 	}
 
-	private Node insert(Node current, int key){
+	private Node insertCall(Node current, int key){
 		if (current == null){
 			elementCount++; //aumenta em um o numero de elementos
 		    return new Node(key);
 		}
 
 		if (key < current.key){
-		    current.left = insert(current.left, key);
+		    current.left = insertCall(current.left, key);
 		} else if (key > current.key){
-		    current.right = insert(current.right, key);
+		    current.right = insertCall(current.right, key);
 		}
 		//retorna current em todas as iterações, a menos que ache um local onde key está
 		//se encontrar, retorna current também se encontrou o valor que deveria ser inserido
 		return current;
 	}
 
-	public boolean searchCall(int key){
-		return search(root, key);
+	public boolean search(int key){
+		return searchCall(root, key);
 	}	
 
-	private boolean search(Node current, int key){
+	private boolean searchCall(Node current, int key){
 		if(current == null){
 			return false;
 		}else if (current.key == key){
 		    return true;
+		}
+
+		if (key < current.key){
+		   return searchCall(current.left, key);
+		} else if (key > current.key){
+		   return searchCall(current.right, key);
+		}
+
+		return false;
+	}
+
+	/*
+	private boolean removal(Node current, int key){
+		if(current == null){
+			return false;
+		}else if (current.key == key){
+		    
 		}
 
 		if (key < current.key){
@@ -56,6 +73,41 @@ public class Tree
 		}
 
 		return false;
+	}
+	*/
+
+	//deleta recursivamente
+	private Node nodeReplacement(Node current, int value){
+		//nada abaixo dele, basta deletar
+		if(current.left == null && current.right == null){
+			return null;
+		}
+		
+		//apenas um abaixo dele, apenas substituir
+		if(current.left == null){
+			return current.right;
+		}
+
+		if(current.right == null){
+			return current.left;
+		}
+
+		//dois valores, escolhe o menor depois de achar
+		//depois que acha substitui prograssivamente para preservar a estrutura
+		//troca pelo sucessor
+		current.key = smallestValue(current.right){
+
+		current.right = nodeReplacement(current.right, current.key);
+		}
+
+		return current;
+	}
+
+	private int smallestValue(Node node){
+		while(node.left != null){
+			node = node.left;
+		}
+		return node.key;
 	}
 
 
