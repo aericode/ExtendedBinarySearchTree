@@ -3,10 +3,16 @@ public class Node {
 	public Node left;
 	public Node right;
 
+	public int leftCount;
+	public int rightCount;
+
 	public Node(int key) {
 		this.key = key;
 		left     = null;
 		right    = null;
+
+		leftCount  = 0;
+		rightCount = 0;
 	}
 
 	public Node(Node node) { 

@@ -1,26 +1,17 @@
 public class OperationDebug {
 	public static void main(String[] args) {
 		Tree tree = new Tree();
-		int i=0;
 
-		tree.insert(3);
-		tree.insert(2);
-		tree.insert(4);
-
-
-		if(tree.search(4)){
-			System.out.println("achei");
-		}else{
-			System.out.println("não achei");
+		for(int i = 0;i<100;i++){
+			tree.insert(i);
 		}
+
+
+		tree.search(4);
 
 		tree.remove(4);
 
+		tree.search(4);
 
-		if(tree.search(4)){
-			System.out.println("achei");
-		}else{
-			System.out.println("não achei");
-		}
 	}
 }

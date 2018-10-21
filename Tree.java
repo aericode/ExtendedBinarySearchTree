@@ -29,24 +29,34 @@ public class Tree {
 			elementCount++; //aumenta em um o numero de elementos
 		    return new Node(key);
 		}
-
+		int  auxCount = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
+		//se o numero de elementos mudar, sobe o contador do lado percorrido (porque de fato houve insercao)
 		if (key < current.key){
 		    current.left = insertCall(current.left, key);
+		    if(auxCount!=elementCount)
+		    	current.leftCount++;
 		} else if (key > current.key){
 		    current.right = insertCall(current.right, key);
+		    if(auxCount!=elementCount)
+		    	current.rightCount++;
 		}
-		//retorna current em todas as itera?es, a menos que ache um local onde key est?		//se encontrar, retorna current tamb? se encontrou o valor que deveria ser inserido
+		//retorna current em todas as iteracoes, a menos que ache um local onde key esta
+		//se encontrar, retorna current tambem se encontrou o valor que deveria ser inserido
 		return current;
 	}
+
 
 	public boolean search(int key){
 		return searchCall(root, key);
 	}	
 
+
 	private boolean searchCall(Node current, int key){
 		if(current == null){
+			System.out.println("nao esta nessa arvore");
 			return false;
 		}else if (current.key == key){
+			System.out.println("esta nessa arvore");
 		    return true;
 		}
 
