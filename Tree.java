@@ -1,10 +1,9 @@
-public class Tree
-{
+public class Tree {
+	
 	private Node root;
-
 	private int elementCount;
 
-	public Tree(){  
+	public Tree() {  
         root = null;
         elementCount = 0;
     }
@@ -12,15 +11,18 @@ public class Tree
 
 	//Insertion call
 	//Baseado em https://www.baeldung.com/java-binary-tree
+
 	public boolean insert(int key){
 		int auxCount = elementCount;
     	root = insertCall(root, key);
     	if(auxCount!=elementCount){
+
     		return true;
     	}else{
     		return false;
     	}
 	}
+
 
 	private Node insertCall(Node current, int key){
 		if (current == null){
@@ -33,8 +35,7 @@ public class Tree
 		} else if (key > current.key){
 		    current.right = insertCall(current.right, key);
 		}
-		//retorna current em todas as iterações, a menos que ache um local onde key está
-		//se encontrar, retorna current também se encontrou o valor que deveria ser inserido
+		//retorna current em todas as itera?es, a menos que ache um local onde key est?		//se encontrar, retorna current tamb? se encontrou o valor que deveria ser inserido
 		return current;
 	}
 
