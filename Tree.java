@@ -118,11 +118,15 @@ public class Tree {
 
 
 	public int enesimoElemento(int n){
-		return enesimoElementoCall(root, root.leftCount + 1, n);//impares
+		return enesimoElementoCall(root, root.leftCount + 1, n);
 	}
 
 	//a ordem simetrica percorre todos os da esquerda, o próprio nó é o (+1)
 	private int enesimoElementoCall(Node current,int selfIndex, int target){
+
+		if(target > elementCount || target < 0){
+			return -1;
+		}
 
 
 		if(selfIndex == target){
@@ -140,11 +144,51 @@ public class Tree {
 		if(selfIndex > target){
 			//Indice abaixo do alvo
 			//Ir para a esquerda, reduzindo do indice os que vem antes do pai, mas depois do filho do filho
+			// (current.left).rightCount significa "quantidade de elementos à direita do filho da esquerda"
 			return enesimoElementoCall(current.left,  selfIndex - current.left.rightCount - 1, target);
 		}
 
-		//o +1/-1 são necessários para a prórpria árvore
+		//o +1/-1 são necessários adicionam/removem o próprio pai na conta
 		return -1;
 	}
+
+
+	//retorna o valor intermediário em percorrimento simétrico
+	public int mediana(){
+		if(elementCount%2 == 0){
+			//requer mediana menor para o par
+			return enesimoElementoCall(root, root.leftCount + 1, elementCount/2);
+		}else{
+			//requer elemento central para o ímpar
+			return enesimoElementoCall(root, root.leftCount + 1, (elementCount/2) + 1 );
+		}
+	}
+
+
+	public int posicao(int key){
+		//leftCount + 1 resulta no índice do nó que chama a função
+		return posicaoCall(root, key, root.leftCount + 1);
+	}
+
+
+	public int posicaoCall(Node current, int key, int selfIndex){
+		if(current == null){
+			return -1;
+		}else if (current.key == key){
+		    return selfIndex;
+		}
+
+		if (current.key > key){
+
+			return posicaoCall(current.left,  selfIndex + current.left.rightCount - 1, key);		   
+		} else if (current.key < key){
+
+			return posicaoCall(current.right, selfIndex - current.right.leftCount + 1, key);
+		}
+
+		return -1;
+	}
+
+
 
 }
