@@ -167,23 +167,24 @@ public class Tree {
 
 	public int posicao(int key){
 		//leftCount + 1 resulta no índice do nó que chama a função
-		return posicaoCall(root, key, root.leftCount + 1);
+		return posicaoCall(root, root.leftCount + 1, key);
 	}
 
 
-	public int posicaoCall(Node current, int key, int selfIndex){
+	public int posicaoCall(Node current, int selfIndex, int key){
 		if(current == null){
 			return -1;
 		}else if (current.key == key){
 		    return selfIndex;
 		}
 
-		if (current.key > key){
 
-			return posicaoCall(current.left,  selfIndex + current.left.rightCount - 1, key);		   
-		} else if (current.key < key){
+		if (current.key < key){
 
-			return posicaoCall(current.right, selfIndex - current.right.leftCount + 1, key);
+			return posicaoCall(current.right, selfIndex + current.right.leftCount + 1, key);		   
+		} else if (current.key > key){
+
+			return posicaoCall(current.left,  selfIndex - current.left.rightCount - 1, key);
 		}
 
 		return -1;
