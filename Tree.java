@@ -94,11 +94,11 @@ public class Tree {
             if (current.left == null){
                 return current.right;
             }else if (current.right == null){
-                return current.left; 
+                return current.left;
             }
 
             //2 filhos, escolhe o sucessor 
-            current.key = smallestValue(current.right); 
+            current.key   = smallestValue(current.right); 
   
             // Deleta o sucessor
             current.right = nodeReplacement(current.right, current.key);
@@ -116,5 +116,35 @@ public class Tree {
 	}
 
 
+
+	public int enesimoElemento(int n){
+		return enesimoElementoCall(root, root.leftCount + 1, n);//impares
+	}
+
+	//a ordem simetrica percorre todos os da esquerda, o próprio nó é o (+1)
+	private int enesimoElementoCall(Node current,int selfIndex, int target){
+
+
+		if(selfIndex == target){
+			return current.key;
+		}
+
+
+		if(selfIndex < target){
+			//Indice acima do alvo
+			//Ir para a direita, adicionando ao indice os que vem depois do pai, mas antes do filho
+			return enesimoElementoCall(current.right,  selfIndex + current.right.leftCount + 1, target);
+		}
+
+
+		if(selfIndex > target){
+			//Indice abaixo do alvo
+			//Ir para a esquerda, reduzindo do indice os que vem antes do pai, mas depois do filho do filho
+			return enesimoElementoCall(current.left,  selfIndex - current.left.rightCount - 1, target);
+		}
+
+		//o +1/-1 são necessários para a prórpria árvore
+		return -1;
+	}
 
 }
