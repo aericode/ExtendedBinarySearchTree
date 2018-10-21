@@ -59,41 +59,44 @@ public class Tree {
 		return false;
 	}
 
-	public boolean remove(int key){
-		int auxCount = elementCount;
-    	root = nodeReplacement(root, key);
-    	if(auxCount!=elementCount){
-    		return true;
-    	}else{
-    		return false;
-    	}
+	public void remove(int key){
+		root = nodeReplacement(root, key);
 	}
-
 
 	//deleta recursivamente
 	private Node nodeReplacement(Node current, int value){
-		//nada abaixo dele, basta deletar
-		if(current.left == null && current.right == null){
+		//nó nulo, deletar o pai
+		if(current == null){
 			return null;
 		}
 		
-		//apenas um abaixo dele, apenas substituir
-		if(current.left == null){
-			return current.right;
-		}
+		//verifica por chave se o nó procurado está à direita ou à esquerda
+		if(value < current.key){
+			//Chamada recursiva para o filho que pode levar à chave
+			//substitui um dos filhos pelo que retornar
+            current.left = nodeReplacement(current.left, value); 
+		}else if (value > current.key){
+            current.right = nodeReplacement(current.right, value);
+		}else{
 
-		if(current.right == null){
-			return current.left;
-		}
+			//chave igual à do nó atual deletar.
+			//um filho. substituir por ele
+            if (current.left == null){
+                return current.right;
+            }else if (current.right == null){
+                return current.left; 
+            }
 
-		
-		//troca pelo sucessor
-		current.key = smallestValue(current.right);
+            //2 filhos, escolhe o sucessor 
+            current.key = smallestValue(current.right); 
+  
+            // Deleta o sucessor
+            current.right = nodeReplacement(current.right, current.key);
+        } 
+  
+        return current; 
+    }
 
-		current.right = nodeReplacement(current.right, current.key);
-
-		return current;
-	}
 
 	private int smallestValue(Node node){
 		while(node.left != null){
