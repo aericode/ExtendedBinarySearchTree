@@ -100,42 +100,64 @@ public class Tree {
 
 	//deleta recursivamente
 	private Node nodeReplacement(Node current, int value){
-		//nó nulo, deletar o pai
+		//nó nulo, apenas para a raiz vazia
 		if(current == null){
 			return null;
 		}
 		
+		int auxCount = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
+
 		//verifica por chave se o nó procurado está à direita ou à esquerda
 		if(value < current.key){
 			//Chamada recursiva para o filho que pode levar à chave
 			//substitui um dos filhos pelo que retornar
-            current.left = nodeReplacement(current.left, value); 
+            current.left = nodeReplacement(current.left, value);
+            if(auxCount!=elementCount){
+            	current.leftCount--;//reduz em um o numero de nós da esquerda
+            }
 		}else if (value > current.key){
             current.right = nodeReplacement(current.right, value);
+            if(auxCount!=elementCount){
+            	current.rightCount--;//reduz em um o numero de nós da direita
+            }
 		}else{
 
 			//chave igual à do nó atual deletar.
 			//um filho. substituir por ele
+
+			//alguém certamente será deletado
+					
+
+			//"salto de trajeto", o num de filhos abaixo deles não se altera
+			//ou seja, sem alterações em left e right counts
+			//se ambos os filhos forem null, retorna null
             if (current.left == null){
+            	elementCount--;	
+            	//entrega o right para o pai sobrescrever em seu lugar
                 return current.right;
             }else if (current.right == null){
+            	elementCount--;
+            	//entrega o left para o pai sobrescrever em seu lugar
                 return current.left;
             }
 
-            //2 filhos, escolhe o sucessor 
-            current.key   = smallestValue(current.right); 
+            //2 filhos, escolhe o sucessor
+            //não reduz o element count agora, só na chamada recursiva para deletar o sucessor
+            current.key   = smallestValue(current.right);
   
             // Deleta o sucessor
+            //pela natureza de smallestValue, vai encontrar um nó com left null e reduzir um o elementCount
             current.right = nodeReplacement(current.right, current.key);
-        } 
-  
+        }
+        //o comportamento padrão é retornar a si próprio para ser "substituido" pelo pai
         return current; 
     }
 
-
+    //
 	private int smallestValue(Node node){
 		while(node.left != null){
 			node = node.left;
+			node.leftCount--;
 		}
 		return node.key;
 	}
