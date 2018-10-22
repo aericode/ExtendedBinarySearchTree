@@ -13,13 +13,15 @@ public class OperationDebug {
 		tree.insert(5);
 		tree.insert(7);
 
-		tree.insert(8);
+		if( tree.fullCount() ){
+			System.out.println(" pode ser cheia");
+		}else{
+			System.out.println(" não tem como ser cheia");
+		}
 
-		tree.debug();
+		//tree.remove(7);
 
-		tree.remove(7);
-
-		tree.debug();
+		//tree.debug();
 
 /*
 		if(tree.ehCompleta()){

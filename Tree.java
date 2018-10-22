@@ -1,3 +1,5 @@
+import java.lang.Math;
+
 public class Tree {
 	
 	private Node root;
@@ -11,6 +13,15 @@ public class Tree {
         completeNodeCount = 0;
     }
 
+
+    public boolean fullCount(){
+    	//log2 propriedade logaritmica
+    	double tester = Math.log(elementCount + 1) / Math.log(2);
+
+    	//retornar true se for inteiro
+    	return tester == (int)tester;
+
+    }
 
     //checa se um no é completo e refaz a contagem
 	public void debug(){
