@@ -12,6 +12,30 @@ public class Tree {
     }
 
 
+    //checa se um no é completo e refaz a contagem
+	public void debug(){
+		System.out.println( "Node Count    : " + elementCount );
+		System.out.println( "Complete Nodes: " + completeNodeCount );
+
+		if(ehCompleta()){
+			System.out.println( "eh completa" );
+		}else{
+			System.out.println( "nao eh completa" );
+		}
+	}
+
+    //checa se um no é completo e refaz a contagem
+	private void reviewComplete(Node current, boolean auxComplete){
+		//alterações de estado são contabilizadas pela tree
+		if(auxComplete && !current.isComplete()){
+			//era completo e não é mais
+			completeNodeCount--;
+		} else if(!auxComplete && current.isComplete()){
+			//não era completo e agora é
+			completeNodeCount++;
+		}
+	}
+
 	//Insertion call
 	//Baseado em https://www.baeldung.com/java-binary-tree
 
@@ -27,6 +51,7 @@ public class Tree {
 	}
 
 
+
 	private Node insertCall(Node current, int key){
 
 		if (current == null){
@@ -36,7 +61,7 @@ public class Tree {
 		}
 
 		int     auxCount    = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
-		boolean auxComplete = current.isComplete();
+		boolean auxComplete = current.isComplete();//grava se o elemento era completo no inicio da operação
 
 		//se o numero de elementos mudar, sobe o contador do lado percorrido (porque de fato houve insercao)
 		if (key < current.key){
@@ -51,14 +76,7 @@ public class Tree {
 		    }
 		}
 
-		//alterações de estado são contabilizadas pela tree
-		if(auxComplete && !current.isComplete()){
-			//era completo e não é mais
-			completeNodeCount--;
-		} else if(!auxComplete && current.isComplete()){
-			//não era completo e agora é
-			completeNodeCount++;
-		}
+		reviewComplete(current, auxComplete);
 
 		//retorna current em todas as iteracoes, a menos que ache um local onde key esta
 		//se encontrar, retorna current tambem se encontrou o valor que deveria ser inserido
@@ -106,19 +124,28 @@ public class Tree {
 		}
 		
 		int auxCount = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
+		boolean auxComplete = current.isComplete();
 
 		//verifica por chave se o nó procurado está à direita ou à esquerda
 		if(value < current.key){
 			//Chamada recursiva para o filho que pode levar à chave
 			//substitui um dos filhos pelo que retornar
             current.left = nodeReplacement(current.left, value);
+
+			
+            //só ocorre caso tenha ocorrido alteração
             if(auxCount!=elementCount){
             	current.leftCount--;//reduz em um o numero de nós da esquerda
+            	reviewComplete(current, auxComplete);//ver se ainda é completo
             }
 		}else if (value > current.key){
+
             current.right = nodeReplacement(current.right, value);
+
+            //só ocorre caso tenha ocorrido alteração
             if(auxCount!=elementCount){
             	current.rightCount--;//reduz em um o numero de nós da direita
+            	reviewComplete(current, auxComplete);//ver se ainda é completo
             }
 		}else{
 
@@ -132,7 +159,10 @@ public class Tree {
 			//ou seja, sem alterações em left e right counts
 			//se ambos os filhos forem null, retorna null
             if (current.left == null){
-            	elementCount--;	
+            	elementCount--;
+
+            	if (current.right == null){completeNodeCount--;}//deletando folha(nó completo)
+
             	//entrega o right para o pai sobrescrever em seu lugar
                 return current.right;
             }else if (current.right == null){
@@ -142,12 +172,15 @@ public class Tree {
             }
 
             //2 filhos, escolhe o sucessor
+
             //não reduz o element count agora, só na chamada recursiva para deletar o sucessor
             current.key   = smallestValue(current.right);
   
             // Deleta o sucessor
             //pela natureza de smallestValue, vai encontrar um nó com left null e reduzir um o elementCount
             current.right = nodeReplacement(current.right, current.key);
+
+            reviewComplete(current, auxComplete);//ver se ainda é completo
         }
         //o comportamento padrão é retornar a si próprio para ser "substituido" pelo pai
         return current; 

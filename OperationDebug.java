@@ -13,15 +13,21 @@ public class OperationDebug {
 		tree.insert(5);
 		tree.insert(7);
 
-		tree.remove(2);
+		tree.insert(8);
 
+		tree.debug();
 
+		tree.remove(7);
+
+		tree.debug();
+
+/*
 		if(tree.ehCompleta()){
 			System.out.println( "eh completa" );
 		}else{
 			System.out.println( "nao eh completa" );
 		}
-
+*/
 		//tree.search(4);
 
 		//tree.remove(4);
