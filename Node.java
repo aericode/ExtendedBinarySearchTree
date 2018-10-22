@@ -15,6 +15,7 @@ public class Node {
 		rightCount = 0;
 	}
 
+	//unused
 	public Node(Node node) { 
 		key   = node.key;
         left  = node.left;
@@ -39,5 +40,18 @@ public class Node {
 
 	public int getKey() {
 		return key;
+	}
+
+	//nós completos, em uma árvore completa não há nós incompletos
+	public boolean isComplete(){
+		if(left == null && right == null){
+			return true;
+		}
+
+		if(left != null && right != null){
+			return true;
+		}
+
+		return false;
 	}
 }

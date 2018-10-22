@@ -3,9 +3,12 @@ public class Tree {
 	private Node root;
 	private int elementCount;
 
+	private int completeNodeCount;
+
 	public Tree() {  
         root = null;
         elementCount = 0;
+        completeNodeCount = 0;
     }
 
 
@@ -25,24 +28,46 @@ public class Tree {
 
 
 	private Node insertCall(Node current, int key){
+
 		if (current == null){
 			elementCount++; //aumenta em um o numero de elementos
+			completeNodeCount++; //todo nó a princípio é completo
 		    return new Node(key);
 		}
-		int  auxCount = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
+
+		int     auxCount    = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
+		boolean auxComplete = current.isComplete();
+
 		//se o numero de elementos mudar, sobe o contador do lado percorrido (porque de fato houve insercao)
 		if (key < current.key){
 		    current.left = insertCall(current.left, key);
-		    if(auxCount!=elementCount)
-		    	current.leftCount++;
+		    if(auxCount!=elementCount){
+		    	current.leftCount++;//aumenta a (contagem de elementos à esquerda) do current
+		    }
 		} else if (key > current.key){
 		    current.right = insertCall(current.right, key);
-		    if(auxCount!=elementCount)
+		    if(auxCount!=elementCount){
 		    	current.rightCount++;
+		    }
 		}
+
+		//alterações de estado são contabilizadas pela tree
+		if(auxComplete && !current.isComplete()){
+			//era completo e não é mais
+			completeNodeCount--;
+		} else if(!auxComplete && current.isComplete()){
+			//não era completo e agora é
+			completeNodeCount++;
+		}
+
 		//retorna current em todas as iteracoes, a menos que ache um local onde key esta
 		//se encontrar, retorna current tambem se encontrou o valor que deveria ser inserido
 		return current;
+	}
+
+
+	public boolean ehCompleta(){
+    	return completeNodeCount == elementCount;
 	}
 
 
@@ -171,7 +196,7 @@ public class Tree {
 	}
 
 
-	public int posicaoCall(Node current, int selfIndex, int key){
+	private int posicaoCall(Node current, int selfIndex, int key){
 		if(current == null){
 			return -1;
 		}else if (current.key == key){
@@ -189,7 +214,5 @@ public class Tree {
 
 		return -1;
 	}
-
-
 
 }
