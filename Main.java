@@ -17,37 +17,37 @@ public class Main {
 				else if(line.contains("REMOVA")) {
 					abb.remove(Integer.parseInt(line.substring(7)));
 				}
-				else if(line.contains("ENENSIMO")) {
+				else if(line.contains("ENESIMO")) {
 					int enesimo = abb.enesimoElemento(Integer.parseInt(line.substring(9)));
-					System.out.println("O " + Integer.parseInt(line.substring(9)) + "º elemento é: " + enesimo);
+					System.out.println("O " + Integer.parseInt(line.substring(9)) + "o elemento eh: " + enesimo);
 				}
 				else if(line.contains("POSICAO")) {
-					int posicao = abb.posicao(Integer.parseInt(line.substring(8)));
-					System.out.println("A Posição do elemento " + Integer.parseInt(line.substring(8)) + " é: " + posicao);
+					int posicao = abb.posicao( Integer.parseInt(line.substring(9)) );
+					System.out.println("A Posicao do elemento " + Integer.parseInt(line.substring(9)) + " eh: " + posicao);
 				}
 				else if(line.contains("MEDIANA")) {
 					int mediana = abb.mediana();
-					System.out.println("A mediana da árvore é: " + mediana);
+					System.out.println("A mediana da arvore eh: " + mediana);
 				}
 				else if(line.contains("CHEIA")) {
 					if(abb.ehCheia()) {
-						System.out.println("A árvore é cheia!");
+						System.out.println("A arvore eh cheia!");
 					} else {
-						System.out.println("A árvore não é cheia!");
+						System.out.println("A arvore nao eh cheia!");
 					}
 				}
 				else if(line.contains("COMPLETA")) {
 					if(abb.ehCompleta()) {
-						System.out.println("A árvore é completa!");
+						System.out.println("A arvore eh completa!");
 					} else {
-						System.out.println("A árvore não é completa!");
+						System.out.println("A arvore nao eh completa!");
 					}
 				}
 				else if(line.contains("IMPRIMA")) {
 					System.out.println(abb.toString());
 				}
 				else {
-					System.out.println("Comando não reconhecido!");
+					System.out.println("Comando nao reconhecido!");
 				}
 				line = readFile.readLine();
 			}
