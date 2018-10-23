@@ -6,34 +6,46 @@ public class Tree {
 	private int elementCount;
 
 	private int completeNodeCount;
+	private int fullNodeCount;
+
 
 	public Tree() {  
         root = null;
         elementCount = 0;
         completeNodeCount = 0;
+        fullNodeCount = 0;
     }
 
-
+    //uma arvore nao cheia nao tem essa propriedade
     public boolean fullCount(){
     	//log2 propriedade logaritmica
     	double tester = Math.log(elementCount + 1) / Math.log(2);
 
     	//retornar true se for inteiro
     	return tester == (int)tester;
-
     }
+
 
     //checa se um no é completo e refaz a contagem
 	public void debug(){
 		System.out.println( "Node Count    : " + elementCount );
 		System.out.println( "Complete Nodes: " + completeNodeCount );
+		System.out.println( "Full Nodes    : " + fullNodeCount );
+
 
 		if(ehCompleta()){
 			System.out.println( "eh completa" );
 		}else{
 			System.out.println( "nao eh completa" );
 		}
+
+		if(ehCheia()){
+			System.out.println( "eh cheia" );
+		}else{
+			System.out.println( "nao eh cheia" );
+		}
 	}
+
 
     //checa se um no é completo e refaz a contagem
 	private void reviewComplete(Node current, boolean auxComplete){
@@ -47,18 +59,27 @@ public class Tree {
 		}
 	}
 
-	//Insertion call
-	//Baseado em https://www.baeldung.com/java-binary-tree
+
+	//checa se um no é cheio e refaz a contagem
+	private void reviewFull(Node current, boolean auxFull){
+		//alterações de estado são contabilizadas pela tree
+		if(auxFull && !current.isFull()){
+			//era cheio e não é mais
+			fullNodeCount--;
+		} else if(!auxFull && current.isFull()){
+			//não era cheio e agora é
+			fullNodeCount++;
+		}
+	}
+
+
 
 	public boolean insert(int key){
 		int auxCount = elementCount;
     	root = insertCall(root, key);
-    	if(auxCount!=elementCount){
 
-    		return true;
-    	}else{
-    		return false;
-    	}
+    	//retorna se foi possivel inserir ou não
+    	return (auxCount!=elementCount);
 	}
 
 
@@ -68,11 +89,13 @@ public class Tree {
 		if (current == null){
 			elementCount++; //aumenta em um o numero de elementos
 			completeNodeCount++; //todo nó a princípio é completo
+			fullNodeCount++; //todo nó a princípio é cheio
 		    return new Node(key);
 		}
 
 		int     auxCount    = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
 		boolean auxComplete = current.isComplete();//grava se o elemento era completo no inicio da operação
+		boolean auxFull     = current.isFull(); //grava se o elemento era cheio no inicio da operação
 
 		//se o numero de elementos mudar, sobe o contador do lado percorrido (porque de fato houve insercao)
 		if (key < current.key){
@@ -87,7 +110,9 @@ public class Tree {
 		    }
 		}
 
+		//Revisa ao fim da operação se o nó ainda é cheio ou completo
 		reviewComplete(current, auxComplete);
+		reviewFull(current, auxFull);
 
 		//retorna current em todas as iteracoes, a menos que ache um local onde key esta
 		//se encontrar, retorna current tambem se encontrou o valor que deveria ser inserido
@@ -97,6 +122,10 @@ public class Tree {
 
 	public boolean ehCompleta(){
     	return completeNodeCount == elementCount;
+	}
+
+	public boolean ehCheia(){
+    	return fullNodeCount == elementCount;
 	}
 
 
@@ -134,8 +163,9 @@ public class Tree {
 			return null;
 		}
 		
-		int auxCount = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
-		boolean auxComplete = current.isComplete();
+		int auxCount        = elementCount;//armazena o numero de elementos na arvore antes da chamada recursiva
+		boolean auxComplete = current.isComplete(); //grava se o elemento era completo no inicio da operação
+		boolean auxFull     = current.isFull(); //grava se o elemento era cheio no inicio da operação
 
 		//verifica por chave se o nó procurado está à direita ou à esquerda
 		if(value < current.key){
@@ -148,6 +178,7 @@ public class Tree {
             if(auxCount!=elementCount){
             	current.leftCount--;//reduz em um o numero de nós da esquerda
             	reviewComplete(current, auxComplete);//ver se ainda é completo
+            	reviewFull(current, auxFull);//ver se ainda é cheio
             }
 		}else if (value > current.key){
 
@@ -157,6 +188,7 @@ public class Tree {
             if(auxCount!=elementCount){
             	current.rightCount--;//reduz em um o numero de nós da direita
             	reviewComplete(current, auxComplete);//ver se ainda é completo
+            	reviewFull(current, auxFull);//ver se ainda é cheio
             }
 		}else{
 
@@ -172,7 +204,11 @@ public class Tree {
             if (current.left == null){
             	elementCount--;
 
-            	if (current.right == null){completeNodeCount--;}//deletando folha(nó completo)
+            	//se ambos são nulls o elemento deletado é uma folha
+            	if (current.right == null){
+            		completeNodeCount--;//toda folha é completa
+            		fullNodeCount--;    //toda folha é cheia
+            	}
 
             	//entrega o right para o pai sobrescrever em seu lugar
                 return current.right;
@@ -192,12 +228,13 @@ public class Tree {
             current.right = nodeReplacement(current.right, current.key);
 
             reviewComplete(current, auxComplete);//ver se ainda é completo
+            reviewFull(current, auxFull);//ver se ainda é cheio
         }
         //o comportamento padrão é retornar a si próprio para ser "substituido" pelo pai
         return current; 
     }
 
-    //
+    
 	private int smallestValue(Node node){
 		while(node.left != null){
 			node = node.left;
@@ -212,9 +249,11 @@ public class Tree {
 		return enesimoElementoCall(root, root.leftCount + 1, n);
 	}
 
+
 	//a ordem simetrica percorre todos os da esquerda, o próprio nó é o (+1)
 	private int enesimoElementoCall(Node current,int selfIndex, int target){
 
+		//fora do limite da arvore
 		if(target > elementCount || target < 0){
 			return -1;
 		}

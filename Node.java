@@ -54,4 +54,10 @@ public class Node {
 
 		return false;
 	}
+
+
+	//em uma árvore cheia todos os nós preservam 
+	public boolean isFull(){
+		return leftCount == rightCount;
+	}
 }
