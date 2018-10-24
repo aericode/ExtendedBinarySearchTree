@@ -44,7 +44,7 @@ public class Main {
 					}
 				}
 				else if(line.contains("IMPRIMA")) {
-					System.out.println(abb.toString());
+					System.out.println(abb);
 				}
 				else {
 					System.out.println("Comando nao reconhecido!");

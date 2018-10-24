@@ -319,5 +319,24 @@ public class Tree {
 
 		return -1;
 	}
+	
+	@Override
+	public String toString() {
+		if(root == null) return "";
+		return readTreeInOrder(root);
+	}
+	
+	private String readTreeInOrder(Node no) {
+		if (no == null) { return ""; }
+		String t = "";
+		if(no.getLeft() != null) {
+			t += (t.isEmpty() ? "" : ",") + readTreeInOrder(no.getLeft());
+		}
+		t += (t.isEmpty() ? "" : ",") + no.toString();
+		if (no.getRight() != null) {
+			t+= (t.isEmpty() ? "" : ",") + readTreeInOrder(no.getRight());
+		}
+		return t;
+	}
 
 }

@@ -1,4 +1,13 @@
 public class Node {
+	public Node getLeft() {
+		return left;
+	}
+
+	public Node getRight() {
+		return right;
+	}
+
+
 	public int key;
 	public Node left;
 	public Node right;
@@ -59,5 +68,11 @@ public class Node {
 	//em uma árvore cheia todos os nós preservam 
 	public boolean isFull(){
 		return leftCount == rightCount;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "" + getKey();
 	}
 }
