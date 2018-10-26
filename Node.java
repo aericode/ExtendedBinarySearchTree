@@ -1,12 +1,4 @@
 public class Node {
-	public Node getLeft() {
-		return left;
-	}
-
-	public Node getRight() {
-		return right;
-	}
-
 
 	public int key;
 	public Node left;
@@ -30,6 +22,14 @@ public class Node {
         left  = node.left;
         right = node.right;
     } 
+	
+	public Node getLeft() {
+		return left;
+	}
+
+	public Node getRight() {
+		return right;
+	}
 
 	public boolean isLeftNull() {
 		return left.equals(null);
