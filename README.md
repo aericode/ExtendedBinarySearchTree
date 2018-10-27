@@ -11,6 +11,7 @@ Lucas Gabriel Matias Paiva
 
 <p> As árvores (definidas na classe Tree.java) possui os atributos: um nó para a raiz, um inteiro para armazenar o número de elementos na árvore e outros dois inteiros para a verificação de árvore cheia ou completa. Os métodos definidos são: um construtor sem parâmetros que inicializa os inteiros com 0 e a raíz como nula, (...)
   
+## Execução
 <p> Para realizar a execução de operações em uma árvore basta escrever no arquivo de texto "ArquivodeComandos". Existem comandos específicos como: </br>
 * ENESIMO N: indica o valor da posição N </br>
 * POSICAO N: retorna a posição do valor N </br>
