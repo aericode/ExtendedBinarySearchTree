@@ -1,7 +1,7 @@
 # Atividade Árvore Binária de Busca Extendida (Extended Binary Search Tree)
 Atividade realizada para a disciplina de Estrutura de Dados Básicas II.
 ## Autores
-Eric Andrade Siqueira
+Eric Andrade Siqueira </br>
 Lucas Gabriel Matias Paiva
 
 ## Informações
