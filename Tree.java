@@ -343,30 +343,5 @@ public class Tree {
 		}
 		return t;
 	}
-	
-	
-	//unused
-	private String readTreePreOrder(Node no) {
-		if(no == null) return "";
-		String t = "";
-		t += (t.isEmpty() ? " " : " ,") + no.toString();
-		t += readTreePreOrder(no.getLeft());
-		t += readTreePreOrder(no.getRight());
-		return t;
-	}
-	
-	//unused
-	private String readTreeInOrder(Node no) {
-		if (no == null) { return ""; }
-		String t = "";
-		if(no.getLeft() != null) {
-			t += (t.isEmpty() ? "" : ",") + readTreeInOrder(no.getLeft());
-		}
-		t += (t.isEmpty() ? "" : ",") + no.toString();
-		if (no.getRight() != null) {
-			t+= (t.isEmpty() ? "" : ",") + readTreeInOrder(no.getRight());
-		}
-		return t;
-	}
 
 }
